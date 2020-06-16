@@ -27,3 +27,90 @@ Output: "Neither"
 Explanation: This is neither a IPv4 address nor a IPv6 address.
 **/
 
+class Solution {
+    
+    public boolean checkIPV4(String IP) {
+        int countDots = 0;
+        if(IP.startsWith(".") || IP.endsWith(".") )
+            return false;
+        
+        for (int i=0; i<IP.length(); i++) {
+            if (IP.charAt(i) == '.')
+                countDots++;
+        }
+        
+        if (countDots != 3)
+            return false;
+        
+        String[] segments = IP.split("\\.");
+        
+        for (String seg : segments) {
+            System.out.print ( seg +  " ");
+            if (seg.length()<1 || seg.length()>4)
+                return false;
+            if (seg.length() > 1 && (seg.startsWith("0") || seg.startsWith("-")))
+                return false;
+            if(seg.startsWith("-")) return false;
+            int i = 0;
+            try {  
+                 i = Integer.parseInt(seg);
+                 // System.out.println(i);
+                 if (i < 0)
+                     return false;            }
+            catch(NumberFormatException ex){  
+                return false;
+             }
+            if (i < 0 || i > 255)
+                return false;
+        }
+        
+        return true;
+    }
+    
+    public boolean checkIPV6(String IP) {
+        int countColons = 0;
+        for (int i=0; i<IP.length(); i++) {
+            if (IP.charAt(i) == ':')
+                countColons++;
+        }
+        
+        String[] segments = IP.split(":");
+        if (segments.length!=8)
+            return false;
+        
+        for (String seg : segments) {
+            System.out.print ( seg +  " ");
+        }
+        
+        if (countColons != 7)
+            return false;
+        
+        for (String seg : segments) {
+            // System.out.print ( seg +  " ");
+            if (seg.length()<1 || seg.length()>4)
+                return false;
+            
+            for (int i=0; i<seg.length(); i++) {    
+                if (!Character.isDigit(seg.charAt(i)) && !(seg.charAt(i)>='a' && seg.charAt(i)<='f' || (seg.charAt(i)>='A' && seg.charAt(i)<='F'))) 
+                    return false;
+            }
+        }
+        
+        
+        return true;
+    }
+    
+    public String validIPAddress(String IP) {    
+        if(checkIPV4(IP)) {
+            return "IPv4";
+        }
+
+        
+        if(checkIPV6(IP)) {
+            return "IPv6";
+        }
+
+        return "Neither";
+        
+    }
+}
