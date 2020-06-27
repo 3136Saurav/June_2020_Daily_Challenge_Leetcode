@@ -13,9 +13,6 @@ Output: 2
 Explanation: 13 = 4 + 9.
 */
 
-
-
-
 class Solution {
     public int numSquares(int n) {
         int[] dp = new int[n+1];
